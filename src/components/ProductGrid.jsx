@@ -1,9 +1,18 @@
 import React from 'react';
 import { useProducts } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
 import { Link } from 'react-router-dom';
 
 const ProductGrid = () => {
   const { products } = useProducts();
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    showToast(`Added ${product.name} to cart`);
+  };
 
   return (
     <div className="bg-white py-16 sm:py-24" id="shop">
@@ -45,6 +54,7 @@ const ProductGrid = () => {
                 {/* Add to cart button */}
                 <button 
                   disabled={product.stock === 0}
+                  onClick={() => handleAddToCart(product)}
                   className={`mt-5 relative z-20 w-full bg-transparent border-2 border-black py-3 px-4 rounded-sm text-xs font-bold uppercase tracking-widest transition-colors duration-300 ${product.stock === 0 ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'text-black hover:bg-black hover:text-white'}`}
                 >
                   {product.stock === 0 ? 'Sold Out' : 'Add to Cart'}

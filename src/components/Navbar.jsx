@@ -1,28 +1,51 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
+  const { user, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="w-full bg-white text-black border-b border-gray-100 fixed top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <span className="font-extrabold text-2xl tracking-widest uppercase cursor-pointer">
+            <Link to="/" className="font-extrabold text-2xl tracking-widest uppercase cursor-pointer">
               Kingdom Wear
-            </span>
+            </Link>
           </div>
 
           {/* Center Navigation Links (Hidden on mobile) */}
           <div className="hidden md:flex space-x-12">
-            <a href="#" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
-              Shop
-            </a>
-            <a href="#" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
-              Collections
-            </a>
-            <a href="#" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
-              Our Mission
-            </a>
+            <Link to="/" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
+              Home
+            </Link>
+            {user && (
+              <Link to="/catalog" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
+                Catalog
+              </Link>
+            )}
+            {isAdmin && (
+              <Link to="/admin" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
+                Admin
+              </Link>
+            )}
+            {!user ? (
+              <Link to="/login" className="text-sm font-semibold tracking-wide hover:text-gray-500 transition-colors">
+                Login
+              </Link>
+            ) : (
+              <button onClick={handleLogout} className="text-sm font-semibold tracking-wide text-red-500 hover:text-red-700 transition-colors">
+                Logout
+              </button>
+            )}
           </div>
 
           {/* Cart Icon */}

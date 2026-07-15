@@ -20,10 +20,16 @@ export const CartProvider = ({ children }) => {
       const existing = prevItems.find(item => item.id === product.id);
       let newItems;
       if (existing) {
+        // Prevent adding if we've reached the stock limit
+        if (existing.quantity >= product.stock) {
+          return prevItems;
+        }
         newItems = prevItems.map(item => 
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
+        // Prevent adding if out of stock
+        if (product.stock <= 0) return prevItems;
         newItems = [...prevItems, { ...product, quantity: 1 }];
       }
       localStorage.setItem('kingdom_cart', JSON.stringify(newItems));

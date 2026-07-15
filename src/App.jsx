@@ -16,7 +16,7 @@ function App() {
       <AuthProvider>
         <ProductProvider>
           <CartProvider>
-            <BrowserRouter>
+            <BrowserRouter basename="/kingdom-wear/">
               <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased relative overflow-hidden">
                 <Navbar />
                 <CartDrawer />

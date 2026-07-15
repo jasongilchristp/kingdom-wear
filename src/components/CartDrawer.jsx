@@ -78,7 +78,8 @@ const CartDrawer = () => {
                         <span className="px-3 py-1 text-sm font-medium">{item.quantity}</span>
                         <button 
                           onClick={() => updateQuantity(item.id, 1)}
-                          className="px-3 py-1 hover:bg-gray-100 transition-colors font-bold"
+                          disabled={item.quantity >= item.stock}
+                          className={`px-3 py-1 font-bold ${item.quantity >= item.stock ? 'text-gray-300 cursor-not-allowed' : 'hover:bg-gray-100 transition-colors'}`}
                         >
                           +
                         </button>
